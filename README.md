@@ -1,7 +1,7 @@
-![alt text](src\assets\img\icon\pwa-512x512.png)
+![Nyepak Bola icon](src/assets/img/icon/pwa-512x512.png)
 # Nyepak Bola
 
-Nyepak Bola is a football leagues and matches list web app using [Workbox](https://developers.google.com/web/tools/workbox) and [Parcel.js](https://parceljs.org/)
+Nyepak Bola is a football leagues and matches list progressive web app (PWA) using [Workbox](https://developers.google.com/web/tools/workbox) and [Parcel.js](https://parceljs.org/)
 check it out https://nyepak-bola.web.app/git
 
 ## Installation
