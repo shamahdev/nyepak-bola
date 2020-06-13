@@ -2,7 +2,7 @@
 ![Nyepak Bola icon](src/assets/img/icon/pwa-192x192.png)
 
 Nyepak Bola is a football leagues and matches list progressive web app (PWA) using [Workbox](https://developers.google.com/web/tools/workbox) and [Parcel.js](https://parceljs.org/)
-check it out https://nyepak-bola.web.app/git
+check it out https://nyepak-bola.web.app/
 
 ## Installation
 
