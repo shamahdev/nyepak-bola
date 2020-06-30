@@ -5,8 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "parcel src/*.html src/pages/*.html",
-    "build": "parcel build src/*.html src/pages/*.html --no-content-hash",
-    "deploy": "npm run build && firebase deploy"
+    "build": "parcel build src/*.html src/pages/*.html",
+    "deploy": "npm run build && firebase deploy",
+    "git": "git add . && git commit -m",
+    "push": "git push -u origin master"
 	},
 	"author": "Shaddam Amru Hasibuan",
 	"license": "ISC",

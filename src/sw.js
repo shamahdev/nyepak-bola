@@ -8,7 +8,8 @@ else
 const {cacheNames, setCacheNameDetails} = workbox.core;
 const {precacheAndRoute} = workbox.precaching;
 const {registerRoute} = workbox.routing;
-const {StaleWhileRevalidate} = workbox.strategies;
+const {StaleWhileRevalidate, CacheFirst} = workbox.strategies;
+const {ExpirationPlugin} = workbox.expiration;
 
 setCacheNameDetails({
 	prefix: 'nyepak-bola',
@@ -16,13 +17,28 @@ setCacheNameDetails({
 	precache: 'app-shell',
 });
 
-precacheAndRoute([]);
+precacheAndRoute([], {
+ignoreURLParametersMatching: [/.*/]
+});
 
 registerRoute(
-    /https:\/\/api\.football-data\.org\/v2/,
+    ({url}) => url.pathname.startsWith('/v2/'),
     new StaleWhileRevalidate({
       cacheName: `${cacheNames.prefix}-api-${cacheNames.suffix}`,
     }),
+);
+
+registerRoute(
+	/\.(?:png|gif|jpg|jpeg|svg)$/,
+	new CacheFirst({
+		plugins: [
+			new ExpirationPlugin({
+			  maxAgeSeconds: 7 * 24 * 60 * 60,
+			  maxEntries: 10,
+			}),
+		  ]
+	})
+	
 );
 
 self.addEventListener('push', event => {

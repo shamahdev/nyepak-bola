@@ -14,7 +14,7 @@ const saveForLater = team => {
         .then(db => {
             const tx = db.transaction("teams", "readwrite");
             const store = tx.objectStore("teams");
-            store.add(team);
+            store.put(team);
             return tx.complete;
         })
         .then(() => {

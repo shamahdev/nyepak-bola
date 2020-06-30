@@ -4,19 +4,27 @@ import * as notavailable from '../img/notavailable.jpg';
 const base_url = "https://api.football-data.org/";
 const token = "e1ba33b79a3a415fa73ff007a605023f";
 
-const status = (response) => {
-  if (response.status !== 200) {
-    console.log(`Error : ${response.status}`);
-    return Promise.reject(new Error(response.statusText));
-  } else {
-    return Promise.resolve(response);
-  }
-}
-const json = (response) => {
-  return response.json();
+const fetchApi = url => {
+  return fetch(`${base_url}${url}`, {
+      headers: {
+        'X-Auth-Token': token,
+        'Connection': 'keep-alive'
+      },
+  })
+  .then(response => {
+    if (response.status !== 200) {
+      console.log(`Error : ${response.status}`);
+      return Promise.reject(new Error(response.statusText));
+    } else {
+      return Promise.resolve(response);
+    }
+  })
+  .then(response => {
+    return response.json();
+  })
 }
 const error = _ => {
-  M.toast({html: 'Anda sedang offline, data akan ditampilkan melalui cache yang tersedia'})
+  M.toast({html: 'Anda sedang offline, data akan ditampilkan melalui cache sampai internet anda kembali'})
 }
 const renderLeagues = (data) => {
   let leaguesHTML = "";
@@ -165,44 +173,32 @@ const renderSavedTeams = (data) => {
   document.getElementById("favorite").innerHTML = teamsHTML;
 }
 const getLeagues = () => {
+const fetch_url = "v2/competitions?plan=TIER_ONE&areas=2072,2163,2224";
   if ('caches' in window) {
-    caches.match(`${base_url}v2/competitions?plan=TIER_ONE&areas=2072,2163,2224`).then(response => {
+    caches.match(`${base_url}${fetch_url}`).then(response => {
       if (response) {
         response.json().then(renderLeagues);
       }
     })
   }
-  fetch(`${base_url}v2/competitions?plan=TIER_ONE&areas=2072,2163,2224`, {
-      headers: {
-        'X-Auth-Token': token
-      },
-    })
-    .then(status)
-    .then(json)
+fetchApi(fetch_url)
     .then(renderLeagues)
     .catch(error)
 }
 const getLeagueById = (id = 0) => {
   return new Promise(function (resolve, reject) {
-
-    // Ambil nilai query parameter (?id=)
     const urlParams = new URLSearchParams(window.location.search);
     const idParam = urlParams.get("id") || id;
+    const fetch_url = `v2/competitions/${idParam}/standings`;
 
     if ("caches" in window) {
-      caches.match(`${base_url}v2/competitions/${idParam}/standings`).then(response => {
+      caches.match(`${base_url}fetch_url`).then(response => {
         if (response) {
           response.json().then(renderLeagueById);
         }
       })
     }
-    fetch(`${base_url}v2/competitions/${idParam}/standings`, {
-        headers: {
-          'X-Auth-Token': token
-        }
-      })
-      .then(status)
-      .then(json)
+    fetchApi(fetch_url)
       .then(data => {
         renderLeagueById(data);
         resolve(data);
@@ -211,20 +207,15 @@ const getLeagueById = (id = 0) => {
   })
 }
 const getMatches = () => {
+  const fetch_url = "v2/matches?status=SCHEDULED";
   if ('caches' in window) {
-    caches.match(`${base_url}v2/matches?status=SCHEDULED`).then(response => {
+    caches.match(`${base_url}${fetch_url}`).then(response => {
       if (response) {
         response.json().then(renderMatches);
       }
     })
   }
-  fetch(`${base_url}v2/matches?status=SCHEDULED`, {
-      headers: {
-        'X-Auth-Token': token
-      },
-    })
-    .then(status)
-    .then(json)
+  fetchApi(fetch_url)
     .then(renderMatches)
     .catch(error)
 }
@@ -233,21 +224,16 @@ const getTeamById = (id = 0) => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const idParam = urlParams.get("id") || id;
+    const fetch_url = `v2/teams/${idParam}`;
 
     if ("caches" in window) {
-      caches.match(`${base_url}v2/teams/${idParam}`).then(response => {
+      caches.match(`${base_url}${fetch_url}`).then(response => {
         if (response) {
           response.json().then(renderTeam);
         }
       })
     }
-    fetch(`${base_url}v2/teams/${idParam}`, {
-        headers: {
-          'X-Auth-Token': token
-        }
-      })
-      .then(status)
-      .then(json)
+    fetchApi(fetch_url)
       .then(data => {
         renderTeam(data);
         resolve(data);
