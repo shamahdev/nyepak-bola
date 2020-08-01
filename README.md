@@ -16,8 +16,10 @@ You can still access the web without internet connection (make sure you've alrea
 * **Save favorite team**,
 you can save your favorite team with one click, your favorites will be shown on the favorite tab (Love icon on the top right)
 
-![Home](https://i.imgur.com/lWKXGn3.png)
-![Team](https://i.imgur.com/QZ9MqoC.png)
+<div>
+<img src="https://i.imgur.com/0bHFdoC.png" alt="Home" height="650" style="margin-right: 16px">
+<img src="https://i.imgur.com/FLZzDBg.png" alt="Team" height="650">
+</div>
 
 ## Built with
 * [Materialize CSS](https://materializecss.com/)
